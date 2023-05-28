@@ -14,7 +14,9 @@ namespace INSY_API.Lib
 
 		public SQLHandler()
 		{
-			_connection = new SqlConnection(@"Data Source=DESKTOP-VSHDA8I;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+			//_connection = new SqlConnection(@"Data Source=DESKTOP-VSHDA8I;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+			_connection = new SqlConnection();
+			_connection.Open();
 		}
 
 		private void ExecuteUse(SqlConnection connection)
@@ -89,7 +91,14 @@ namespace INSY_API.Lib
 
 			_connection.Close();
 
-			return JsonConvert.SerializeObject(jsons.ToArray());
+			if(jsons.Count == 1)
+			{
+				return jsons[0];
+			}
+			else
+			{
+				return JsonConvert.SerializeObject(jsons.ToArray());
+			}
 		}
 		#endregion
 

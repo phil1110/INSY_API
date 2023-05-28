@@ -2,9 +2,9 @@ using Microsoft.IdentityModel.Tokens;
 using INSY_API.Lib;
 
 
-RequestHandler requestHandler = new RequestHandler();
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+RequestHandler requestHandler = new RequestHandler();
 
 #region GET-Maps
 app.MapGet("/", (int? top) => requestHandler.GetRequest(top));

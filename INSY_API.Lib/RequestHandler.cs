@@ -13,9 +13,21 @@ namespace INSY_API.Lib
 			_sqlHandler = new SQLHandler();
 		}
 
-		public void GetRequest()
+		public string GetRequest(int? top)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				if(top != null)
+				{
+					return _sqlHandler.Get($"SELECT TOP {top} * FROM Employees");
+				}
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+            }
+
+			return null;
 		}
 
 		public void PostRequest(bool? array, string msg = null)
