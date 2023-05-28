@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INSY_API", "INSY_API\INSY_API.csproj", "{40D2E47B-5244-4085-A257-458DEC8F66EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "INSY_API", "INSY_API\INSY_API.csproj", "{40D2E47B-5244-4085-A257-458DEC8F66EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INSY_API.Test", "INSY_API.Test\INSY_API.Test.csproj", "{1D154884-5E1C-4214-8268-6CA368EE695D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{40D2E47B-5244-4085-A257-458DEC8F66EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40D2E47B-5244-4085-A257-458DEC8F66EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40D2E47B-5244-4085-A257-458DEC8F66EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D154884-5E1C-4214-8268-6CA368EE695D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D154884-5E1C-4214-8268-6CA368EE695D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D154884-5E1C-4214-8268-6CA368EE695D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D154884-5E1C-4214-8268-6CA368EE695D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

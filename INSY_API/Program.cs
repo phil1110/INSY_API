@@ -1,14 +1,16 @@
 using Microsoft.IdentityModel.Tokens;
+using INSY_API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+RequestHandler requestHandler = new RequestHandler();
 
-app.MapGet("/", () => "Hello World!");
-app.MapPut("/", (int? id, string msg) => test(id, msg)) ;
+#region GET-Maps
+app.MapGet("/", () => sqlHandler.Get());
+#endregion
+
+#region POST-Maps
+app.MapPost("/", (string? emp, bool? array) => "Temp");
+#endregion
 
 app.Run();
-
-string test(int? id, string msg)
-{
-	return "Hello " + id;
-}

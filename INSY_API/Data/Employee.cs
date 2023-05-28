@@ -2,6 +2,8 @@
 
 namespace INSY_API.Data
 {
+
+	[JsonObject(MemberSerialization.OptOut)]
 	public class Employee
 	{
 		#region variables
@@ -15,18 +17,18 @@ namespace INSY_API.Data
 		private string _address;
 		private string _city;
 		private string _region;
-		private int _postalCode;
+		private string _postalCode;
 		private string _country;
 		private string _homePhone;
-		private int _extension;
-		private string _photo;
+		private string _extension;
+		private byte[] _photo;
 		private string _notes;
 		private int _reportsTo;
 		private string _photoPath;
 		#endregion
 
 		#region Constructor
-		public Employee(int employeeId = -1, string lastName = null, string firstName = null, string title = null, string titleOfCourtesy = null, DateTime birthday = new DateTime(), DateTime hireDate = new DateTime(), string address = null, string city = null, string region = null, int postalCode = -1, string country = null, string homePhone = null, int extension = -1, string photo = null, string notes = null, int reportsTo = -1, string photoPath = null)
+		public Employee(int employeeId = -1, string lastName = null, string firstName = null, string title = null, string titleOfCourtesy = null, DateTime birthday = new DateTime(), DateTime hireDate = new DateTime(), string address = null, string city = null, string region = null, string postalCode = null, string country = null, string homePhone = null, string extension = null, byte[] photo = null, string notes = null, int reportsTo = -1, string photoPath = null)
 		{
 			_employeeId = employeeId;
 			_lastName = lastName;
@@ -69,15 +71,15 @@ namespace INSY_API.Data
 		
 		public string Region { get { return _region;} set { _region = value; } }
 		
-		public int PostalCode { get { return _postalCode; } set { _postalCode = value; } }
+		public string PostalCode { get { return _postalCode; } set { _postalCode = value; } }
 		
 		public string Country { get { return _country; } set { _country = value; } }
 		
 		public string HomePhone { get { return _homePhone; } set { _homePhone = value; } }
 		
-		public int Extension { get { return _extension; } set { _extension = value; } }
+		public string Extension { get { return _extension; } set { _extension = value; } }
 		
-		public string Photo { get { return _photo; } set { _photo = value; } }
+		public byte[] Photo { get { return _photo; } set { _photo = value; } }
 		
 		public string Notes { get { return _notes; } set { _notes = value; } }
 		
