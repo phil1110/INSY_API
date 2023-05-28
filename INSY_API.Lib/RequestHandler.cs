@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Reflection.Metadata.Ecma335;
+﻿using INSY_API.Lib;
+using Newtonsoft.Json;
+using System;
 
-namespace INSY_API.Data
+namespace INSY_API.Lib
 {
 	public class RequestHandler
 	{
@@ -17,7 +18,7 @@ namespace INSY_API.Data
 			throw new NotImplementedException();
 		}
 
-		public void PostRequest(bool? array, string? msg)
+		public void PostRequest(bool? array, string msg = null)
 		{
 			try
 			{
@@ -49,7 +50,7 @@ namespace INSY_API.Data
 					}
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}

@@ -1,12 +1,12 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using INSY_API.Lib;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace INSY_API.Data
+namespace INSY_API.Lib
 {
 	public class SQLHandler
 	{
@@ -26,7 +26,7 @@ namespace INSY_API.Data
 		}
 
 		#region GET-Requests
-		public string Get (string sqlQuery = "SELECT * FROM Employees")
+		public string Get(string sqlQuery = "SELECT * FROM Employees")
 		{
 			List<string> jsons = new List<string>();
 
@@ -100,7 +100,7 @@ namespace INSY_API.Data
 			{
 				throw new Exception("No Values were provided.");
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
@@ -172,7 +172,7 @@ namespace INSY_API.Data
 
 				Post(employee);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
