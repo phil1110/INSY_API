@@ -26,6 +26,17 @@ namespace INSY_API.Test
 
 			Employee emp = JsonConvert.DeserializeObject<Employee>(await response.Content.ReadAsStringAsync());
 			Console.Write(JsonConvert.SerializeObject(emp));
+
+			Console.Write("Enter name: ");
+			emp.FirstName = Console.ReadLine();
+
+			request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7021/");
+			var content = new StringContent(JsonConvert.SerializeObject(emp));
+			request.Content = content;
+			response = await client.SendAsync(request);
+			response.EnsureSuccessStatusCode();
+			Console.WriteLine(await response.Content.ReadAsStringAsync());
+
 			Console.ReadKey();
 		}
 	}
