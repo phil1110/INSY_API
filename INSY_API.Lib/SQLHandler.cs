@@ -119,12 +119,12 @@ namespace INSY_API.Lib
 			ExecuteUse(_connection);
 
 			#region Query creation
-			string sqlQuery = "INSERT INTO Employees("
+			string sqlQuery = "INSERT INTO Employees ("
 				+ $"{(employee.LastName == null || employee.LastName == "" ? "" : "LastName,")}"
 				+ $"{(employee.FirstName == null || employee.FirstName == "" ? "" : "FirstName,")}"
-				+ $"{(employee.Title == null || employee.Title == "" ? "" : "Title")}"
+				+ $"{(employee.Title == null || employee.Title == "" ? "" : "Title,")}"
 				+ $"{(employee.TitleOfCourtesy == null || employee.TitleOfCourtesy == "" ? "" : "TitleOfCourtesy,")}"
-				+ $"{(employee.BirthDay == new DateTime() ? "" : "BirthDay,")}"
+				+ $"{(employee.BirthDay == new DateTime() ? "" : "BirthDate,")}"
 				+ $"{(employee.HireDate == new DateTime() ? "" : "HireDate,")}"
 				+ $"{(employee.Address == null || employee.Address == "" ? "" : "Address,")}"
 				+ $"{(employee.City == null || employee.City == "" ? "" : "City,")}"
@@ -137,46 +137,56 @@ namespace INSY_API.Lib
 				+ $"{(employee.Notes == null || employee.Notes == "" ? "" : "Notes,")}"
 				+ $"{(employee.ReportsTo == -1 ? "" : "ReportsTo,")}"
 				+ $"{(employee.PhotoPath == null || employee.PhotoPath == "" ? "" : "PhotoPath")})"
-				+ $" VALUES ({(employee.LastName == null || employee.LastName == "" ? "" : $"{employee.LastName},")}"
-				+ $"{(employee.FirstName == null || employee.FirstName == "" ? "" : $"{employee.FirstName},")}"
-				+ $"{(employee.Title == null || employee.Title == "" ? "" : $"{employee.Title},")}"
-				+ $"{(employee.TitleOfCourtesy == null || employee.TitleOfCourtesy == "" ? "" : $"{employee.TitleOfCourtesy},")}"
-				+ $"{(employee.BirthDay == new DateTime() ? "" : $"{employee.BirthDay},")}"
-				+ $"{(employee.HireDate == new DateTime() ? "" : $"{employee.HireDate},")}"
-				+ $"{(employee.Address == null || employee.Address == "" ? "" : $"{employee.Address},")}"
-				+ $"{(employee.City == null || employee.City == "" ? "" : $"{employee.City},")}"
-				+ $"{(employee.Region == null || employee.Region == "" ? "" : $"{employee.Region},")}"
-				+ $"{(employee.PostalCode == null || employee.PostalCode == "" ? "" : $"{employee.PostalCode},")}"
-				+ $"{(employee.Country == null || employee.Country == "" ? "" : $"{employee.Country},")}"
-				+ $"{(employee.HomePhone == null || employee.HomePhone == "" ? "" : $"{employee.HomePhone},")}"
-				+ $"{(employee.Extension == null || employee.Extension == "" ? "" : $"{employee.Extension},")}"
-				+ $"{(employee.Photo == null ? "" : $"{employee.Photo},")}"
-				+ $"{(employee.Notes == null || employee.Notes == "" ? "" : $"{employee.Notes},")}"
+				+ $" VALUES ({(employee.LastName == null || employee.LastName == "" ? "" : $"'{employee.LastName}',")}"
+				+ $"{(employee.FirstName == null || employee.FirstName == "" ? "" : $"'{employee.FirstName}',")}"
+				+ $"{(employee.Title == null || employee.Title == "" ? "" : $"'{employee.Title}',")}"
+				+ $"{(employee.TitleOfCourtesy == null || employee.TitleOfCourtesy == "" ? "" : $"'{employee.TitleOfCourtesy}',")}"
+				+ $"{(employee.BirthDay == new DateTime() ? "" : $"'{employee.BirthDay}',")}"
+				+ $"{(employee.HireDate == new DateTime() ? "" : $"'{employee.HireDate}',")}"
+				+ $"{(employee.Address == null || employee.Address == "" ? "" : $"'{employee.Address}',")}"
+				+ $"{(employee.City == null || employee.City == "" ? "" : $"'{employee.City}',")}"
+				+ $"{(employee.Region == null || employee.Region == "" ? "" : $"'{employee.Region}',")}"
+				+ $"{(employee.PostalCode == null || employee.PostalCode == "" ? "" : $"'{employee.PostalCode}',")}"
+				+ $"{(employee.Country == null || employee.Country == "" ? "" : $"'{employee.Country}',")}"
+				+ $"{(employee.HomePhone == null || employee.HomePhone == "" ? "" : $"'{employee.HomePhone}',")}"
+				+ $"{(employee.Extension == null || employee.Extension == "" ? "" : $"'{employee.Extension}',")}"
+				+ $"{(employee.Photo == null ? "" : $"'{employee.Photo.ToString()}',")}"
+				+ $"{(employee.Notes == null || employee.Notes == "" ? "" : $"'{employee.Notes}',")}"
 				+ $"{(employee.ReportsTo == -1 ? "" : $"{employee.ReportsTo},")}"
-				+ $"{(employee.PhotoPath == null || employee.PhotoPath == "" ? "" : $"{employee.PhotoPath},")})";
+				+ $"{(employee.PhotoPath == null || employee.PhotoPath == "" ? "" : $"'{employee.PhotoPath}'")})";
 			#endregion
-
-			using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+			try
 			{
-				command.ExecuteNonQuery();
-				//try
-				//{
-				//	command.ExecuteNonQuery();
-				//}
-				//catch (Exception ex)
-				//{
-				//	Debug.WriteLine(ex);
-				//}
-			}
+				using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+				{
+					command.ExecuteNonQuery();
+					//try
+					//{
+					//	command.ExecuteNonQuery();
+					//}
+					//catch (Exception ex)
+					//{
+					//	Debug.WriteLine(ex);
+					//}
+				}
 
-			_connection.Close();
+				_connection.Close();
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			finally
+			{
+				_connection.Close();
+			}
 		}
 
 		public void Post(string emp)
 		{
 			try
 			{
-				Employee employee = (Employee)JsonConvert.DeserializeObject(emp);
+				Employee employee = JsonConvert.DeserializeObject<Employee>(emp);
 
 				Post(employee);
 			}

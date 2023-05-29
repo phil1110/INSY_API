@@ -1,6 +1,7 @@
 ﻿using INSY_API.Lib;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlTypes;
 
 namespace INSY_API.Lib
 {
@@ -34,7 +35,7 @@ namespace INSY_API.Lib
 		{
 			try
 			{
-				if (array.Value)
+				if ((array.HasValue ? array.Value : false))
 				{
 					if (msg != null)
 					{
@@ -50,7 +51,7 @@ namespace INSY_API.Lib
 						throw new Exception("P0001");
 					}
 				}
-				if (!array.Value || array == null)
+				if ((array.HasValue ? array.Value : true))
 				{
 					if (msg != null)
 					{

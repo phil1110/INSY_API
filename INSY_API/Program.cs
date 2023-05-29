@@ -1,4 +1,8 @@
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+
 using INSY_API.Lib;
 
 
@@ -11,7 +15,13 @@ app.MapGet("/", (int? top) => requestHandler.GetRequest(top));
 #endregion
 
 #region POST-Maps
-app.MapPost("/{emp}", (bool? array, string emp) => requestHandler.PostRequest(array, emp));
+app.MapPost("/", async (bool? array, HttpRequest request) =>
+{
+	StreamReader reader = new StreamReader(request.Body);
+
+	requestHandler.PostRequest(array, await reader.ReadToEndAsync());
+}
+);
 #endregion
 
 app.Run();
