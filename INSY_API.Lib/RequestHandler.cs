@@ -27,10 +27,10 @@ namespace INSY_API.Lib
 				Console.WriteLine(ex.Message);
             }
 
-			return null;
+			return "";
 		}
 
-		public void PostRequest(bool? array, string msg = null)
+		public string PostRequest(bool? array, string msg)
 		{
 			try
 			{
@@ -61,11 +61,14 @@ namespace INSY_API.Lib
 						throw new Exception("P0001");
 					}
 				}
+
+				return "Success";
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
+			return "Failed";
 		}
 	}
 }

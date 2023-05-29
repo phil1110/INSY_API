@@ -14,9 +14,7 @@ namespace INSY_API.Lib
 
 		public SQLHandler()
 		{
-			//_connection = new SqlConnection(@"Data Source=DESKTOP-VSHDA8I;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
-			_connection = new SqlConnection();
-			_connection.Open();
+			_connection = new SqlConnection(@"Data Source=DESKTOP-VSHDA8I;Integrated Security=True;Connect Timeout=30;Encrypt=False");
 		}
 
 		private void ExecuteUse(SqlConnection connection)
@@ -160,14 +158,15 @@ namespace INSY_API.Lib
 
 			using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
 			{
-				try
-				{
-					command.ExecuteNonQuery();
-				}
-				catch (Exception ex)
-				{
-					Debug.WriteLine(ex);
-				}
+				command.ExecuteNonQuery();
+				//try
+				//{
+				//	command.ExecuteNonQuery();
+				//}
+				//catch (Exception ex)
+				//{
+				//	Debug.WriteLine(ex);
+				//}
 			}
 
 			_connection.Close();

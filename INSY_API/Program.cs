@@ -11,7 +11,7 @@ app.MapGet("/", (int? top) => requestHandler.GetRequest(top));
 #endregion
 
 #region POST-Maps
-app.MapPost("/", (bool? array, string? emp) => requestHandler.PostRequest(array, emp));
+app.MapPost("/{emp}", (bool? array, string emp) => requestHandler.PostRequest(array, emp));
 #endregion
 
 app.Run();
