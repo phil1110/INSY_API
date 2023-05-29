@@ -18,10 +18,11 @@ namespace INSY_API.Lib
 		{
 			try
 			{
-				if(top != null)
+				if((top.HasValue ? true : false))
 				{
 					return _sqlHandler.Get($"SELECT TOP {top} * FROM Employees");
 				}
+				else { return _sqlHandler.Get(); }
 			}
 			catch(Exception ex)
 			{
