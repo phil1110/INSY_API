@@ -1,6 +1,7 @@
 ﻿using INSY_API.Lib;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 
 namespace INSY_API.Lib
@@ -14,22 +15,59 @@ namespace INSY_API.Lib
 			_sqlHandler = new SQLHandler();
 		}
 
-		public string GetRequest(int? top)
+		private string addToWhere(string where, string value, string valueName)
 		{
+			if(where == "")
+			{
+				where = "WHERE " + valueName + " = " + value;
+			}
+			else
+			{
+				where += " AND " + valueName + " = " + value;
+			}
+
+			return where;
+		}
+
+		public string GetRequest(int? top, int? birthyear, int? hireyear, string city, string country)
+		{
+			string returnValue = "";
 			try
 			{
-				if((top.HasValue ? true : false))
+				string sqlQuery = "SELECT ";
+				string topQúery = "";
+				string where = "";
+
+				if(top.HasValue ? true : false)
 				{
-					return _sqlHandler.Get($"SELECT TOP {top} * FROM Employees");
+					returnValue = _sqlHandler.Get($"SELECT TOP {top} * FROM Employees");
 				}
-				else { return _sqlHandler.Get(); }
+				if(birthyear.HasValue ? true : false)
+				{
+					where = addToWhere(where, Convert.ToString(birthyear.Value), "year(BirthDate)");
+				}
+				if (hireyear.HasValue ? true : false)
+				{
+					where = addToWhere(where, Convert.ToString(hireyear.Value), "year(HireDate)");
+				}
+				if (city != null)
+				{
+					where = addToWhere(where, city, "City");
+				}
+				if (country != null)
+				{
+					where = addToWhere(where, country, "Country");
+				}
+
+				else { returnValue = _sqlHandler.Get(); }
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine(ex.Message);
+				returnValue = ex.Message;
             }
 
-			return "";
+			return returnValue;
 		}
 
 		public string PostRequest(bool? array, string msg)
@@ -71,6 +109,11 @@ namespace INSY_API.Lib
 				Console.WriteLine(ex.Message);
 			}
 			return "Failed";
+		}
+
+		public string PutRequest(Dictionary<string, string> args, Dictionary<string, string> parameters)
+		{
+			return _sqlHandler.Put(args, parameters);
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using Newtonsoft.Json.Linq;
 
 namespace INSY_API.Lib
 {
@@ -194,6 +195,84 @@ namespace INSY_API.Lib
 			{
 				Console.WriteLine(ex.Message);
 			}
+		}
+		#endregion
+
+		#region PUT-Requests
+		public string Put()
+		{
+			try
+			{
+				throw new Exception("No parameters existed.");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return ex.Message;
+			}
+		}
+
+		public string Put(Dictionary<string, string> args, Dictionary<string, string> parameters)
+		{
+			string returnValue = "";
+
+			try
+			{
+				string setValues = "";
+				string whereValues = "";
+				string sqlQuery = "";
+
+				foreach (string key in args.Keys)
+				{
+					string value = args[key];
+
+					if (setValues == "")
+					{
+						setValues += (value != "" && value != null ? $"{key} = '{value}'" : "");
+					}
+					else
+					{
+						setValues += (value != "" && value != null ? $", {key} = '{value}'" : "");
+					}
+				}
+
+				foreach (string key in parameters.Keys)
+				{
+					string value = parameters[key];
+
+					if (whereValues == "")
+					{
+						whereValues += (value != "" && value != null ? $"{key} = '{value}'" : "");
+					}
+					else
+					{
+						whereValues += (value != "" && value != null ? $" AND {key} = '{value}'" : "");
+					}
+				}
+
+				sqlQuery = "UPDATE Employees SET " + setValues + " WHERE " + whereValues;
+
+				using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+				{
+					_connection.Open();
+					ExecuteUse(_connection);
+
+					command.ExecuteNonQuery();
+				}
+
+				returnValue = "Success!";
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				returnValue = ex.Message;
+			}
+			finally
+			{
+				_connection.Close();
+			}
+
+			return returnValue;
 		}
 		#endregion
 	}
