@@ -8,15 +8,20 @@ using INSY_API.Lib;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
-RequestHandler requestHandler = new RequestHandler();
 
 #region GET-Maps
-app.MapGet("/", (int? top, int? birthyear, int? hireyear, string? city, string? country) => requestHandler.GetRequest(top, birthyear, hireyear, city, country));
+app.MapGet("/", (int? top, int? birthyear, int? hireyear, string? city, string? country) =>
+{
+	RequestHandler requestHandler = new RequestHandler();
+
+	return requestHandler.GetRequest(top, birthyear, hireyear, city, country);
+});
 #endregion
 
 #region POST-Maps
 app.MapPost("/", async (bool? array, HttpRequest request) =>
 {
+	RequestHandler requestHandler = new RequestHandler();
 	StreamReader reader = new StreamReader(request.Body);
 
 	return requestHandler.PostRequest(array, await reader.ReadToEndAsync());
@@ -34,6 +39,7 @@ app.MapPut("/", (int whereId, string? LastName, string? FirstName, string? Title
 {
 	Dictionary<string, string> args = new Dictionary<string, string>();
 	Dictionary<string, string> parameters = new Dictionary<string, string>();
+	RequestHandler requestHandler = new RequestHandler();
 
 	LastName = (LastName == null ? "" : LastName);
 	FirstName = (FirstName == null ? "" : FirstName);
@@ -74,6 +80,8 @@ app.MapPut("/", (int whereId, string? LastName, string? FirstName, string? Title
 
 app.MapDelete("/", (int id) =>
 {
+	RequestHandler requestHandler = new RequestHandler();
+
 	return requestHandler.DeleteRequest(id);
 });
 
