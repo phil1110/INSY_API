@@ -67,7 +67,7 @@ namespace INSY_API.Lib
 				}
 				catch
 				{
-					returnValue = _sqlHandler.Get("SELECT * FROM Employees");
+					returnValue = _sqlHandler.Get("SELECT TOP(5) * FROM Employees");
 				}
 			}
 			catch(Exception ex)

@@ -19,7 +19,7 @@ app.MapPost("/", async (bool? array, HttpRequest request) =>
 {
 	StreamReader reader = new StreamReader(request.Body);
 
-	requestHandler.PostRequest(array, await reader.ReadToEndAsync());
+	return requestHandler.PostRequest(array, await reader.ReadToEndAsync());
 }
 );
 #endregion
