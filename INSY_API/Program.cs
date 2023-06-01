@@ -72,4 +72,9 @@ app.MapPut("/", (int whereId, string? LastName, string? FirstName, string? Title
 });
 #endregion
 
+app.MapDelete("/", (int id) =>
+{
+	return requestHandler.DeleteRequest(id);
+});
+
 app.Run();

@@ -31,64 +31,71 @@ namespace INSY_API.Lib
 		{
 			List<string> jsons = new List<string>();
 
+			_connection.Close();
 			_connection.Open();
 			ExecuteUse(_connection);
 
-			using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+			try
 			{
-				// Execute the query and obtain a SqlDataReader
-				using (SqlDataReader reader = command.ExecuteReader())
+				using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
 				{
-					// Process the retrieved data
-					while (reader.Read())
+					// Execute the query and obtain a SqlDataReader
+					using (SqlDataReader reader = command.ExecuteReader())
 					{
-						int employeeId = Convert.IsDBNull(reader["EmployeeID"]) ? -1 : (int)reader["EmployeeID"];
-						string lastName = reader["LastName"] as string;
-						string firstName = reader["FirstName"] as string;
-						string title = reader["Title"] as string;
-						string titleOfCourtesy = reader["TitleOfCourtesy"] as string;
-						DateTime birthDate = Convert.IsDBNull(reader["BirthDate"]) ? DateTime.MinValue : (DateTime)reader["BirthDate"];
-						DateTime hireDate = Convert.IsDBNull(reader["HireDate"]) ? DateTime.MinValue : (DateTime)reader["HireDate"];
-						string address = reader["Address"] as string;
-						string city = reader["City"] as string;
-						string region = reader["Region"] as string;
-						string postalCode = reader["PostalCode"] as string;
-						string country = reader["Country"] as string;
-						string homePhone = reader["HomePhone"] as string;
-						string extension = reader["Extension"] as string;
-						byte[] photo = reader["Photo"] as byte[];
-						string notes = reader["Notes"] as string;
-						int reportsTo = Convert.IsDBNull(reader["ReportsTo"]) ? -1 : (int)reader["ReportsTo"];
-						string photoPath = reader["PhotoPath"] as string;
+						// Process the retrieved data
+						while (reader.Read())
+						{
+							int employeeId = Convert.IsDBNull(reader["EmployeeID"]) ? -1 : (int)reader["EmployeeID"];
+							string lastName = reader["LastName"] as string;
+							string firstName = reader["FirstName"] as string;
+							string title = reader["Title"] as string;
+							string titleOfCourtesy = reader["TitleOfCourtesy"] as string;
+							DateTime birthDate = Convert.IsDBNull(reader["BirthDate"]) ? DateTime.MinValue : (DateTime)reader["BirthDate"];
+							DateTime hireDate = Convert.IsDBNull(reader["HireDate"]) ? DateTime.MinValue : (DateTime)reader["HireDate"];
+							string address = reader["Address"] as string;
+							string city = reader["City"] as string;
+							string region = reader["Region"] as string;
+							string postalCode = reader["PostalCode"] as string;
+							string country = reader["Country"] as string;
+							string homePhone = reader["HomePhone"] as string;
+							string extension = reader["Extension"] as string;
+							byte[] photo = reader["Photo"] as byte[];
+							string notes = reader["Notes"] as string;
+							int reportsTo = Convert.IsDBNull(reader["ReportsTo"]) ? -1 : (int)reader["ReportsTo"];
+							string photoPath = reader["PhotoPath"] as string;
 
-						Employee employee = new Employee(
-							employeeId,
-							lastName,
-							firstName,
-							title,
-							titleOfCourtesy,
-							birthDate,
-							hireDate,
-							address,
-							city,
-							region,
-							postalCode,
-							country,
-							homePhone,
-							extension,
-							photo,
-							notes,
-							reportsTo,
-							photoPath
-						);
+							Employee employee = new Employee(
+								employeeId,
+								lastName,
+								firstName,
+								title,
+								titleOfCourtesy,
+								birthDate,
+								hireDate,
+								address,
+								city,
+								region,
+								postalCode,
+								country,
+								homePhone,
+								extension,
+								photo,
+								notes,
+								reportsTo,
+								photoPath
+							);
 
 
-						jsons.Add(JsonConvert.SerializeObject(employee));
+							jsons.Add(JsonConvert.SerializeObject(employee));
+						}
 					}
 				}
 			}
-
-			_connection.Close();
+			catch { }
+			finally
+			{
+				_connection.Close();
+			}
 
 			if(jsons.Count == 1)
 			{
@@ -270,6 +277,35 @@ namespace INSY_API.Lib
 			finally
 			{
 				_connection.Close();
+			}
+
+			return returnValue;
+		}
+		#endregion
+
+		#region DELETE-Requests
+		public string Delete(int id)
+		{
+			string returnValue = "";
+
+			try
+			{
+				string sqlQuery = "DELETE FROM Employees WHERE EmployeeID = " + id;
+
+				using (SqlCommand command = new SqlCommand(sqlQuery, _connection))
+				{
+					_connection.Open();
+					ExecuteUse(_connection);
+
+					command.ExecuteNonQuery();
+				}
+
+				returnValue = "Success!";
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				returnValue = ex.Message;
 			}
 
 			return returnValue;

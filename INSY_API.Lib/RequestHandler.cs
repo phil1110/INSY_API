@@ -19,11 +19,11 @@ namespace INSY_API.Lib
 		{
 			if(where == "")
 			{
-				where = "WHERE " + valueName + " = " + value;
+				where = " WHERE " + valueName + " = " + $"'{value}'";
 			}
 			else
 			{
-				where += " AND " + valueName + " = " + value;
+				where += " AND " + valueName + " = " + $"'{value}'";
 			}
 
 			return where;
@@ -34,13 +34,14 @@ namespace INSY_API.Lib
 			string returnValue = "";
 			try
 			{
-				string sqlQuery = "SELECT ";
-				string topQúery = "";
+				string sqlQuery = "SELECT";
+				string topQuery = "";
+				string from = " * FROM Employees";
 				string where = "";
 
 				if(top.HasValue ? true : false)
 				{
-					returnValue = _sqlHandler.Get($"SELECT TOP {top} * FROM Employees");
+					topQuery = $" TOP({top.Value})";
 				}
 				if(birthyear.HasValue ? true : false)
 				{
@@ -59,7 +60,15 @@ namespace INSY_API.Lib
 					where = addToWhere(where, country, "Country");
 				}
 
-				else { returnValue = _sqlHandler.Get(); }
+				try
+				{
+					sqlQuery += topQuery + from + where;
+					returnValue = _sqlHandler.Get(sqlQuery);
+				}
+				catch
+				{
+					returnValue = _sqlHandler.Get("SELECT * FROM Employees");
+				}
 			}
 			catch(Exception ex)
 			{
@@ -114,6 +123,11 @@ namespace INSY_API.Lib
 		public string PutRequest(Dictionary<string, string> args, Dictionary<string, string> parameters)
 		{
 			return _sqlHandler.Put(args, parameters);
+		}
+
+		public string DeleteRequest(int id)
+		{
+			return _sqlHandler.Delete(id);
 		}
 	}
 }
