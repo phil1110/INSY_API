@@ -7,7 +7,20 @@ using INSY_API.Lib;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy(name: MyAllowSpecificOrigins,
+					  policy =>
+					  {
+						  policy.WithOrigins("*");
+					  });
+});
+
 var app = builder.Build();
+
+
 
 #region GET-Maps
 app.MapGet("/", (int? top, int? birthyear, int? hireyear, string? city, string? country) =>
@@ -84,5 +97,7 @@ app.MapDelete("/", (int id) =>
 
 	return requestHandler.DeleteRequest(id);
 });
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();

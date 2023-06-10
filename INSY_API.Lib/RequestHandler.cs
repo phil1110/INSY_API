@@ -29,9 +29,11 @@ namespace INSY_API.Lib
 			return where;
 		}
 
-		public string GetRequest(int? top, int? birthyear, int? hireyear, string city, string country)
+		public Employee[] GetRequest(int? top, int? birthyear, int? hireyear, string city, string country)
 		{
-			string returnValue = "";
+			string json = "";
+			List<Employee> employees = new List<Employee>();
+
 			try
 			{
 				string sqlQuery = "SELECT";
@@ -63,20 +65,41 @@ namespace INSY_API.Lib
 				try
 				{
 					sqlQuery += topQuery + from + where;
-					returnValue = _sqlHandler.Get(sqlQuery);
+					json = _sqlHandler.Get(sqlQuery);
+
+					if(topQuery == "" || topQuery == "TOP(1)")
+					{
+						employees.Add(JsonConvert.DeserializeObject<Employee>(json));
+					}
+					else
+					{
+						string[] employeesJson = JsonConvert.DeserializeObject<string[]>(json);
+
+						foreach(string employeeJson in employeesJson)
+						{
+							employees.Add(JsonConvert.DeserializeObject<Employee>(employeeJson));
+						}
+					}
 				}
 				catch
 				{
-					returnValue = _sqlHandler.Get("SELECT TOP(5) * FROM Employees");
+					json = _sqlHandler.Get("SELECT TOP(5) * FROM Employees");
+
+					string[] employeesJson = JsonConvert.DeserializeObject<string[]>(json);
+
+					foreach (string employeeJson in employeesJson)
+					{
+						employees.Add(JsonConvert.DeserializeObject<Employee>(employeeJson));
+					}
 				}
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine(ex.Message);
-				returnValue = ex.Message;
+				json = ex.Message;
             }
 
-			return returnValue;
+			return employees.ToArray();		
 		}
 
 		public string PostRequest(bool? array, string msg)
