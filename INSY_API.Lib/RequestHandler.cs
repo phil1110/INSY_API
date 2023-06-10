@@ -67,7 +67,7 @@ namespace INSY_API.Lib
 					sqlQuery += topQuery + from + where;
 					json = _sqlHandler.Get(sqlQuery);
 
-					if(topQuery == "" || topQuery == "TOP(1)")
+					if(topQuery == "" || topQuery == " TOP(1)")
 					{
 						employees.Add(JsonConvert.DeserializeObject<Employee>(json));
 					}
