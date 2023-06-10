@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Text;
 
 namespace INSY_API.Lib
 {
@@ -80,7 +81,22 @@ namespace INSY_API.Lib
 
 		public string Extension { get { return _extension; } set { _extension = value; } }
 
-		public byte[] Photo { get { return _photo; } set { _photo = value; } }
+		public byte[] Photo
+		{
+			get
+			{
+				return _photo;
+			}
+			set
+			{
+				string temp = Convert.ToString(value);
+				byte[] temp2 = Encoding.UTF8.GetBytes(temp);
+
+				string temp3 = Convert.ToBase64String(temp2);
+
+				_photo = Encoding.UTF8.GetBytes(temp3);
+			}
+		}
 
 		public string Notes { get { return _notes; } set { _notes = value; } }
 

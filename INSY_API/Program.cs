@@ -9,12 +9,13 @@ using INSY_API.Lib;
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
+
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy(name: MyAllowSpecificOrigins,
 					  policy =>
 					  {
-						  policy.WithOrigins("*");
+						  policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 					  });
 });
 
