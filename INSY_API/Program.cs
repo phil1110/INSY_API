@@ -38,7 +38,7 @@ app.MapPost("/", async (bool? array, HttpRequest request) =>
 	RequestHandler requestHandler = new RequestHandler();
 	StreamReader reader = new StreamReader(request.Body);
 
-	return requestHandler.PostRequest(array, await reader.ReadToEndAsync());
+	requestHandler.PostRequest(array, await reader.ReadToEndAsync());
 }
 );
 #endregion
@@ -88,7 +88,7 @@ app.MapPut("/", (int whereId, string? LastName, string? FirstName, string? Title
 
 	parameters.Add("EmployeeID", Convert.ToString(whereId));
 
-	return requestHandler.PutRequest(args, parameters);
+	requestHandler.PutRequest(args, parameters);
 });
 #endregion
 
@@ -96,7 +96,8 @@ app.MapDelete("/", (int id) =>
 {
 	RequestHandler requestHandler = new RequestHandler();
 
-	return requestHandler.DeleteRequest(id);
+	//return requestHandler.DeleteRequest(id);
+	requestHandler.DeleteRequest(id);
 });
 
 app.UseCors(MyAllowSpecificOrigins);
